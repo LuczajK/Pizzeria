@@ -10,28 +10,29 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PizzaController : ControllerBase
+    public class UzytkownikController : ControllerBase
     {
+
         s18185Context _context;
-        public PizzaController(s18185Context context)
+        public UzytkownikController(s18185Context context)
         {
             _context = context;
 
         }
         [HttpGet]
-        public IActionResult getPizza()
+        public IActionResult getUzytkownik()
         {
-            return Ok(_context.PizzaWlasna.ToList());
+            return Ok(_context.Użytkownik.ToList());
         }
-        [HttpGet("idWlasnejPizzy:int")]
-        public IActionResult getPizza(int id)
+        [HttpGet("IdUżytkownika:int")]
+        public IActionResult getZamówienie(int idUżytkownik)
         {
-            var pizza = _context.PizzaWlasna.FirstOrDefault(e => e.IdWlasnejPizzy == id);
-            if (pizza == null)
+            var zamowienie = _context.Użytkownik.Where(e => e.IdUżytkownika == idUżytkownik);
+            if (zamowienie == null)
             {
                 return NotFound();
             }
-            return Ok(pizza);
+            return Ok(zamowienie);
         }
 
     }
