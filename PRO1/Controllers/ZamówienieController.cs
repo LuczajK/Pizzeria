@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -34,6 +35,26 @@ namespace WebApplication1.Controllers
                 }
                 return Ok(zamowienie);
             }
-   
+        public IActionResult Create(Zamówienie zamowienie)
+        {
+            _context.Zamówienie.Add(zamowienie);
+            _context.SaveChanges();
+            return StatusCode(201, zamowienie);
+        }
+        [HttpPut]
+        public IActionResult Update(Zamówienie zamowienie)
+        {
+            if ((_context.Zamówienie.Count(e => e.IdZamowienia == zamowienie.IdZamowienia)) == 0)
+            {
+                return NotFound();
+
+            }
+            _context.Zamówienie.Attach(zamowienie);
+            _context.Entry(zamowienie).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok(zamowienie);
+        }
     }
+
+}
     }
